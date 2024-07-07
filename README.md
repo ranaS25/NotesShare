@@ -1,2 +1,2 @@
-project is for taking notes simple
+- project is for taking notes Quickly
 
