@@ -1,6 +1,10 @@
 .parcel-cache
 /dist
 /node_modules
+
 /server/node_modules
 
+
+
+# dont edit below
 /server/.env
