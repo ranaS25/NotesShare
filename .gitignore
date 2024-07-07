@@ -1,5 +1,4 @@
 .parcel-cache
 /dist
 /node_modules
-
-/database/node_modules
+/server/node_modules
