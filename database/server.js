@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+
 const slowDown = require('express-slow-down');
 
 const fs = require('fs');
@@ -16,6 +16,7 @@ const cors = require("cors");
 
 
 // Utility function example
+// read any file and returns it in js object
 const readJsonFile = async (filePath) => {
     try {
         const data = await fs.promises.readFile(filePath, 'utf8');
@@ -35,9 +36,9 @@ async function writeStringToFile(filePath, content) {
     } catch (error) {
         // Handle errors (e.g., file not found, permission issues)
         console.error(`Error writing to file: ${error.message}`);
-        throw error; // Re-throw the error to be handled by the caller if needed
+        
     }
-}
+}   
 
 
 function getNextid(database_obj){
@@ -122,7 +123,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.post("/AuthenticateUser",  (req, res) => {
     // const user = req;
@@ -134,7 +135,8 @@ app.post("/AuthenticateUser",  (req, res) => {
     });
 });
 
-let database_path = path.join(__dirname,'database', 'notes.json');
+let database_path = path.join(__dirname, 'notes.json');
+const USERS_PATH = path.join(__dirname, "users.json");
 
 // Dummy email database
 const registeredEmails = ['ankit@gmail.com', 'user@example.com'];
@@ -159,9 +161,6 @@ app.post('/registerUser', (req, res)=>{
     // console.log(req.body.name, req.body.email, req.body.password, req.body.confirmPassword);
     res.send({accountStatus: "new account is created"});
 })
-
-
-
 
 // Define a route for '/sendanote'
 app.post('/sendanote', async (req, res) => {
@@ -290,6 +289,16 @@ app.get('/notes/:noteid', async(req, res)=>{
 
 
 
+})
+
+//user profile
+
+app.get('/user/:email', async (req, res) => {
+    const email = req.params.email;
+    const usersArray = await readJsonFile(USERS_PATH);
+    const user = usersArray.find((user) => user.userId === email);
+    res.json(user);
+  
 })
 
 // Start the server using Express
