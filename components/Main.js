@@ -1,88 +1,54 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useEffect, useState } from "react";
+import useNotesData from "../utils/useNotesData";
+import Shimmer from "./Shimmer.js";
+import Search from "./Search";
 
-import Shimmer from './Shimmer.js';
-import Search from './Search.js';
-
-
-const Main = ()=>{
+const Main = () => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const { userNotes, loading, error } = useNotesData(
+        user.userId,
+        user.password
+    );
 
     const [notesArray, setNotesArray] = useState([]);
-    const [filteredNotesArray, setFilteredNotesArray] = useState(notesArray);
-    
-    useEffect(()=>{
-        fetchData();   
-    }, []);
+    const [filteredNotesArray, setFilteredNotesArray] = useState([]);
 
-    const fetchData = async()=>{
-        const response = await fetch(`http://localhost:3000/notes`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Userid: JSON.parse(sessionStorage.getItem("user")).userId,
-            Userpassword: JSON.parse(sessionStorage.getItem("user")).password
-          },
-        });
-        console.log("this line")
-        const notesjsonArr = await response.json();
-        
-        //29-06-2024
+    // Update notesArray and filteredNotesArray when userNotes change
+    useEffect(() => {
+        setNotesArray(userNotes);
+        setFilteredNotesArray(userNotes);
+    }, [userNotes]);
 
-        setNotesArray(notesjsonArr);
-        setFilteredNotesArray(notesjsonArr); 
+    if (loading) {
+        return (
+            <div className="notes-container">
+                {Array.from({ length: 30 }, (_, index) => (
+                    <Shimmer key={index} />
+                ))}
+            </div>
+        );
     }
-    
-    if(notesArray.length<1){
-        return(         
-            <div className="notes-container"> <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            </div>)
-    
-        ;
-   
-}
-    // console.log(notesArray);
+
+    if (error) {
+        return <div className="error">Error: {error}</div>;
+    }
+
     return (
         <>
-        <Search notesArray={notesArray}  setFilteredNotesArray = {setFilteredNotesArray} />
-        <div className="notes-container">
-            {
-                
-                filteredNotesArray.map((note)=>{
-                    return (<div className='note' key={note.id}>
+            <Search
+                notesArray={notesArray}
+                setFilteredNotesArray={setFilteredNotesArray}
+            />
+            <div className="notes-container">
+                {filteredNotesArray.map((note) => (
+                    <div className="note" key={note.id}>
                         <h2>{note.title}</h2>
                         <p>{note.description}</p>
-                        </div>)
-                })
-            }
-        </div>
+                    </div>
+                ))}
+            </div>
         </>
-    )
-}
+    );
+};
+
 export default Main;

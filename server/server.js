@@ -1,6 +1,8 @@
 const express = require('express');
 
 const slowDown = require('express-slow-down');
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
 
 const fs = require('fs');
 const path = require('path'); // Core module for handling file paths
@@ -9,8 +11,32 @@ const PORT = 3000;
 const cors = require("cors");
 
 
+require('dotenv').config();
 
+let database_path = path.join(__dirname, "notes.json");
+const USERS_PATH = path.join(__dirname, "users.json");
 
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(process.env.MONGODB_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("notes_share").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
 
 
 
@@ -118,12 +144,11 @@ app.use(express.urlencoded({ extended: true }));
 };
 
 
-
-
-
-
 // Serve static files from the 'public' directory
 // app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 
 app.post("/AuthenticateUser",  (req, res) => {
     // const user = req;
@@ -135,8 +160,6 @@ app.post("/AuthenticateUser",  (req, res) => {
     });
 });
 
-let database_path = path.join(__dirname, 'notes.json');
-const USERS_PATH = path.join(__dirname, "users.json");
 
 // Dummy email database
 const registeredEmails = ['ankit@gmail.com', 'user@example.com'];
@@ -303,5 +326,6 @@ app.get('/user/:email', async (req, res) => {
 
 // Start the server using Express
 app.listen(PORT, () => {
+    console.log(process.env.MONGODB_URI);
     console.log(`Server running at http://localhost:${PORT}`);
 });
