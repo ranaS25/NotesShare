@@ -5,20 +5,14 @@ const Search = ({notesArray, setFilteredNotesArray})=>{
 
     const [searchInputText, setSearchInputText] = useState("");
     console.log(notesArray);
-    
-
-
-
 
     return (
         <div className="search">
         <input type="text" placeholder="Grocery List" value={searchInputText} onChange={(e)=>{
             setSearchInputText(e.target.value);
             if(e.target.value.length === 0 && notesArray.length>0){
-                setFilteredNotesArray(notesArray);
+              setFilteredNotesArray(notesArray);
             }
-
-        
         }}
         onFocus={()=>{
             document.querySelector('.search').style.borderWidth = '2px';
@@ -33,6 +27,5 @@ const Search = ({notesArray, setFilteredNotesArray})=>{
     </div>
     )
 }
-
 
 export default Search;

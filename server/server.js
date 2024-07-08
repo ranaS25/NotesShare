@@ -81,12 +81,6 @@ const slowDownMiddleware = slowDown({
     delayAfter: 5,
   });
 
-
-  //un comment when server is under maintainence()
-
-//   app.use((req, res, next)=>{
-//     res.send("Sorry, Server is under Maintainance...\n Try after some time.");
-//   })
   
   // Apply the slowDown middleware to all requests
   app.use(slowDownMiddleware);

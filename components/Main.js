@@ -21,17 +21,18 @@ const Main = () => {
 
     if (loading) {
         return (
-            <div className="notes-container">
-                {Array.from({ length: 30 }, (_, index) => (
-                    <Shimmer key={index} />
-                ))}
-            </div>
+          <div className="notes-container">
+            <Shimmer cards={25} />
+          </div>
         );
     }
 
     if (error) {
         return <div className="error">Error: {error}</div>;
-    }
+  }
+  if (!loading && userNotes.length < 1) {
+    return <div className="notes-container" style={{justifyContent: 'center'}}><h2>No Notes available. <br/>Start by adding some notes </h2></div>;
+  }
 
     return (
         <>

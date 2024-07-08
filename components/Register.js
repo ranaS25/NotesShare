@@ -76,4 +76,4 @@ const Otp = () => {
     )
 }
 
-export default Otp;
+export default Register;

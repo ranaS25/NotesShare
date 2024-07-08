@@ -383,7 +383,7 @@ body {
     height: fit-content;
     padding: 10px;
     flex-wrap: wrap;
-    background-color: #f0f0f0;
+    background-color: #fff;
     gap: 20px;
     flex: 1 1;
 }

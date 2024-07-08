@@ -4,8 +4,7 @@ import DropdownProfile from "./DropdownProfile";
 import { useState } from "react";
 
 const Header = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div className="navbar">
@@ -33,7 +32,7 @@ const Header = () => {
           }}
         />
       </div>
-      <DropdownProfile displayValue={isDropdownOpen? 'flex': 'none'} />
+      <DropdownProfile displayValue={isDropdownOpen ? "flex" : "none"} />
     </div>
   );
 };

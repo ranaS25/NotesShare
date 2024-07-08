@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
   const navigate = useNavigate(); // Initialize navigate hook
 
@@ -50,12 +49,6 @@ const Login = () => {
             type="submit"
             onClick={async (e) => {
               e.preventDefault();
-              // console.log(
-              //   JSON.stringify({
-              //     userId: email,
-              //     userPassword: password,
-              //   })
-              // );
               const response = await fetch(
                 "http://localhost:3000/AuthenticateUser",
                 {
@@ -94,6 +87,5 @@ const Login = () => {
     </div>
   );
 }
-
 
 export default Login;
