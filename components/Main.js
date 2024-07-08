@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import useNotesData from "../utils/useNotesData";
 import Shimmer from "./Shimmer.js";
 import Search from "./Search";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Main = () => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
     const { userNotes, loading, error } = useNotesData(
         user.userId,
         user.password
@@ -18,6 +19,12 @@ const Main = () => {
         setNotesArray(userNotes);
         setFilteredNotesArray(userNotes);
     }, [userNotes]);
+  
+  const isUserOnline = useOnlineStatus();
+  if (!isUserOnline) {
+    return <h1>Looks like you are not online!! Check Your Internet Settings</h1>
+    
+  }
 
     if (loading) {
         return (

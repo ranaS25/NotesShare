@@ -67,7 +67,7 @@ const Login = () => {
               console.log("User authenticated:", responseJSON);
 
               if (responseJSON.isAuthorizedUser == true) {
-                sessionStorage.setItem(
+                localStorage.setItem(
                   "user",
                   JSON.stringify({
                     userId: responseJSON.userId,

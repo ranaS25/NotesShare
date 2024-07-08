@@ -11,7 +11,6 @@ function DropdownProfile(props) {
             try {
                 const response = await fetch(`http://localhost:3000/user/admin@notesshare.com`);
                 const data = await response.json();
-                console.log(data);
                 setProfile( { 'name': data.userName})
             }
             catch(err) {

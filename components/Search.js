@@ -4,7 +4,6 @@ import React, {useState} from 'react';
 const Search = ({notesArray, setFilteredNotesArray})=>{
 
     const [searchInputText, setSearchInputText] = useState("");
-    console.log(notesArray);
 
     return (
         <div className="search">
