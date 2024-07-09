@@ -2,7 +2,6 @@
   "name": "notesshare-project-using-react",
   "version": "1.0.0",
   "description": "project is for taking notes simple",
-  "main": "app.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
