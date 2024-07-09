@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Header from './src/components/Header';
-import Main from './src/components/Main';
+import Header from './components/Header';
+import Main from './components/Main';
 
-import About  from './src/components/About';
-import Login from './src/components/Login';
-import Register  from './src/components/Register';
+import About  from './components/About';
+import Login from './components/Login';
+import Register  from './components/Register';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 
