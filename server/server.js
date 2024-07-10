@@ -17,6 +17,9 @@ let database_path = path.join(__dirname, "notes.json");
 const USERS_PATH = path.join(__dirname, "users.json");
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+
+/*  FIXME uncomment when you are done 
+
 const client = new MongoClient(process.env.MONGODB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -37,8 +40,8 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
+  END
+ */
 
 
 // Utility function example

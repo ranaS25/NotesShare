@@ -82,6 +82,12 @@ const Login = () => {
           >
             Login
           </button>
+          <button
+            type="button"
+            className=" bg-blue-500 p-2 px-4 rounded mx-2 text-slate-50 focus:bg-blue-600 active:text-slate-900"
+          >
+            Button text
+          </button>
         </form>
       </div>
     </div>

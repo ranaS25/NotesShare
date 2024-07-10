@@ -28,7 +28,7 @@ const Main = () => {
 
     if (loading) {
         return (
-          <div className="notes-container">
+          <div className="flex flex-wrap gap-4">
             <Shimmer cards={25} />
           </div>
         );
@@ -42,20 +42,25 @@ const Main = () => {
   }
 
     return (
-        <>
-            <Search
-                notesArray={notesArray}
-                setFilteredNotesArray={setFilteredNotesArray}
-            />
-            <div className="notes-container">
-                {filteredNotesArray.map((note) => (
-                    <div className="note" key={note.id}>
-                        <h2>{note.title}</h2>
-                        <p>{note.description}</p>
-                    </div>
-                ))}
+      <>
+        <Search
+          notesArray={notesArray}
+          setFilteredNotesArray={setFilteredNotesArray}
+        />
+        <div
+          className="flex flex-wrap gap-4 p-4 bg-slate-100 dark:bg-slate-900"
+        >
+          {filteredNotesArray.map((note) => (
+            <div
+              className="flex flex-col bg-slate-300 p-4 rounded hover:bg-slate-400 select-none grow dark:bg-slate-600 dark:text-slate-100"
+              key={note.id}
+            >
+              <h2 className="font-semibold text-lg my-1">{note.title}</h2>
+              <p>{note.description}</p>
             </div>
-        </>
+          ))}
+        </div>
+      </>
     );
 };
 
