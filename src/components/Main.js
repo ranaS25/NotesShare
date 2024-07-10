@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useNotesData from "../utils/useNotesData";
+import Note, {withTags} from "./Note";
 import Shimmer from "./Shimmer.js";
 import Search from "./Search";
 import useOnlineStatus from "../utils/useOnlineStatus";
@@ -12,7 +13,9 @@ const Main = () => {
     );
 
     const [notesArray, setNotesArray] = useState([]);
-    const [filteredNotesArray, setFilteredNotesArray] = useState([]);
+  const [filteredNotesArray, setFilteredNotesArray] = useState([]);
+  
+  const NoteWithTags = withTags(Note);
 
     // Update notesArray and filteredNotesArray when userNotes change
     useEffect(() => {
@@ -47,18 +50,26 @@ const Main = () => {
           notesArray={notesArray}
           setFilteredNotesArray={setFilteredNotesArray}
         />
-        <div
-          className="flex flex-wrap gap-4 p-4 bg-slate-100 dark:bg-slate-900"
-        >
-          {filteredNotesArray.map((note) => (
-            <div
-              className="flex flex-col bg-slate-300 p-4 rounded hover:bg-slate-400 select-none grow dark:bg-slate-600 dark:text-slate-100"
-              key={note.id}
-            >
-              <h2 className="font-semibold text-lg my-1">{note.title}</h2>
-              <p>{note.description}</p>
-            </div>
-          ))}
+        <div className=" flex flex-wrap gap-4 p-4 bg-slate-100 dark:bg-slate-900">
+          {filteredNotesArray.map((note) => {
+            console.log("note length: ", note.tags.length, " node data: ", note.tags);
+            return note.tags.length < 1 ? (
+              <Note
+                id={note.id}
+                tags={note.tags}
+                title={note.title}
+                description={note.description}
+              />
+            ) : (
+              <NoteWithTags
+                id={note.id}
+                tags={note.tags}
+                title={note.title}
+                description={note.description}
+              />
+            );
+          }
+          )}
         </div>
       </>
     );

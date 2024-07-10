@@ -1,71 +1,85 @@
 [
   {
     "id": "note-id-1",
+    "tags": [],
     "title": "Grocery List",
     "description": "Buy milk, bread, and eggs."
   },
   {
     "id": "note-id-3",
+    "tags": [],
     "title": "Birthday Reminder....",
     "description": "Send a card to Sarah on June 20th."
   },
   {
     "id": "note-id-4",
+    "tags": [{"name": "MARKED", "color": "#ff0000"}],
     "title": "Book Recommendations...",
     "description": "Read 'The Great Gatsby' and 'To Kill a Mockingbird."
   },
   {
     "id": "note-id-5",
+    "tags": [],
     "title": "Hobbies Chacklist",
     "description": "Bath\nEat\nDinner\nwaking up"
   },
   {
     "id": "note-id-9",
+    "tags": [],
     "title": "TagLine",
     "description": "Never Stop, No matter what"
   },
   {
     "id": "note-id-10",
+    "tags": [],
     "title": "Maza aa rha hai",
     "description": "pata nahi kyu"
   },
   {
     "id": "note-id-11",
+    "tags": [],
     "title": "Today Task",
     "description": "click on items should open editing window. Thanks"
   },
   {
     "id": "note-id-12",
+    "tags": [],
     "title": "Yes",
     "description": "Its working"
   },
   {
     "id": "note-id-13",
+    "tags": [],
     "title": "How to self help",
     "description": "Read seld help books"
   },
   {
     "id": "note-id-15",
+    "tags": [],
     "title": "copy",
     "description": "Read seld help books"
   },
   {
     "id": "note-id-18",
+    "tags": [],
     "title": "New Note",
     "description": "exactly"
   },
   {
     "id": "note-id-19",
+    "tags": [],
     "title": "copy of new note",
     "description": "nA"
   },
   {
     "id": "note-id-20",
+    "tags": [],
     "title": "Happy Coding",
     "description": "Coding journey is great"
   },
   {
     "id": "note-id-21",
+    "tags": [],
     "title": "Looking great",
     "description": "No problem\nYes"
   }
