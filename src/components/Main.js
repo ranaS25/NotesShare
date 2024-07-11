@@ -4,6 +4,7 @@ import Note, {withTags} from "./Note";
 import Shimmer from "./Shimmer.js";
 import Search from "./Search";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import Sidebar from "./Sidebar.js";
 
 const Main = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -45,33 +46,38 @@ const Main = () => {
   }
 
     return (
-      <>
+      <div className="flex flex-col h-full">
         <Search
           notesArray={notesArray}
           setFilteredNotesArray={setFilteredNotesArray}
         />
-        <div className=" flex flex-wrap gap-4 p-4 bg-slate-100 dark:bg-slate-900">
-          {filteredNotesArray.map((note) => {
-            console.log("note length: ", note.tags.length, " node data: ", note.tags);
-            return note.tags.length < 1 ? (
-              <Note
-                id={note.id}
-                tags={note.tags}
-                title={note.title}
-                description={note.description}
-              />
-            ) : (
-              <NoteWithTags
-                id={note.id}
-                tags={note.tags}
-                title={note.title}
-                description={note.description}
-              />
-            );
-          }
-          )}
+
+        <div className="flex h-full bg-slate-500">
+          <Sidebar />
+          <div className="flex h-full flex-row flex-wrap gap-1 items-start overflow-scroll bg-slate-100 dark:bg-slate-900 p-4">
+            {filteredNotesArray.map((note) => {
+              
+              return note.tags.length < 1 ? (
+                <Note
+                  key={note.id}
+                  id={note.id}
+                  tags={note.tags}
+                  title={note.title}
+                  description={note.description}
+                />
+              ) : (
+                  <NoteWithTags
+                    key={note.id}
+                  id={note.id}
+                  tags={note.tags}
+                  title={note.title}
+                  description={note.description}
+                />
+              );
+            })}
+          </div>
         </div>
-      </>
+      </div>
     );
 };
 

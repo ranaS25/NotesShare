@@ -7,9 +7,12 @@ import useDarkMode from "../utils/useDarkMode";
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
+  const [activeTab, setActiveTab] = useState(0);
 
   console.log("Dark Mode: " + (darkMode ? "On" : "Off"));
-  
+
+
+ 
 
 
 
@@ -23,17 +26,38 @@ const Header = () => {
       <div className="flex items-center">
         <ul className="h-[100%] flex">
           <Link to="/">
-            <li className="flex items-center h-[100%] px-4 dark:hover:bg-slate-700">
+            <li
+              className={`flex items-center h-[100%] px-4 dark:hover:bg-slate-700 ${
+                activeTab === 0
+                  ? "border-b-2 border-slate-900 dark:border-slate-200"
+                  : ""
+              }`}
+              onClick={() => setActiveTab(0)}
+            >
               Home
             </li>
           </Link>
           <Link to="/about">
-            <li className="flex items-center h-[100%] px-4 dark:hover:bg-slate-700">
+            <li
+              className={`flex items-center h-[100%] px-4 dark:hover:bg-slate-700 ${
+                activeTab === 1
+                  ? "border-b-2 border-slate-900 dark:border-slate-200"
+                  : ""
+              }`}
+              onClick={() => setActiveTab(1)}
+            >
               About
             </li>
           </Link>
           <Link>
-            <li className="flex items-center h-[100%] px-4 dark:hover:bg-slate-700">
+            <li
+              className={`flex items-center h-[100%] px-4 dark:hover:bg-slate-700 ${
+                activeTab === 2
+                  ? "border-b-2 border-slate-900 dark:border-slate-200"
+                  : ""
+              }`}
+              onClick={() => setActiveTab(2)}
+            >
               Contact
             </li>
           </Link>

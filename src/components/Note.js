@@ -4,7 +4,7 @@ const Note = (props) =>{
   const { id, title, description } = props;
   return (
     <div
-      className="flex-col  bg-slate-300 p-4 rounded hover:bg-slate-400 select-none grow dark:bg-slate-600 dark:text-slate-100"
+      className="flex-col h-fit bg-slate-300 p-4 rounded hover:bg-slate-400 select-none grow dark:bg-slate-600 dark:text-slate-100"
     >
       <h2 className="font-semibold text-lg my-1">{title}</h2>
       <p>{description}</p>
@@ -14,7 +14,7 @@ const Note = (props) =>{
 
 
 export const withTags = (Note) => {
-  console.log("check here : ", Note)
+  // console.log("check here : ", Note)
   return (props) => {
     // const {id, title, description, tags} = props;
     return (

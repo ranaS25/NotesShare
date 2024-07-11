@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Header from './components/Header';
 import Main from './components/Main';
+import "./fontawesome";
 
 import About  from './components/About';
 import Login from './components/Login';
@@ -16,10 +17,10 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 const ParentContainer = ()=>{
     return (  
-    <>
+    <div className="flex flex-col h-[100vh]">
     <Header/>
     <Outlet/>
-    </>
+    </div>
     );
 };
 
