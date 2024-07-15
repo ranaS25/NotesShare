@@ -1,7 +1,7 @@
 const express = require('express');
 
 const slowDown = require('express-slow-down');
-const { MongoClient, ServerApiVersion } = require("mongodb");
+
 
 
 const fs = require('fs');
@@ -9,10 +9,14 @@ const path = require('path'); // Core module for handling file paths
 const app = express();
 const PORT = 3000;
 const cors = require("cors");
+const mongoose = require("mongoose");
+const  MongoHelper  =  require ("./Mongodb.js")
 
 
 require('dotenv').config();
 
+
+const MONGODB_URI = process.env.LOCAL_MONGODB_URI;
 let database_path = path.join(__dirname, "notes.json");
 const USERS_PATH = path.join(__dirname, "users.json");
 
@@ -20,26 +24,7 @@ const USERS_PATH = path.join(__dirname, "users.json");
 
 /*  FIXME uncomment when you are done 
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("notes_share").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+
   END
  */
 
@@ -319,6 +304,22 @@ app.get('/user/:email', async (req, res) => {
     const user = usersArray.find((user) => user.userId === email);
     res.json(user);
   
+})
+
+
+app.get('/getAllnotes', async (req, res) => { 
+  const mongoHelper = new MongoHelper();
+  const db = await mongoHelper.connectToDatabase();
+  const coll = db.collection('user_notes');
+  const documents = await coll.findOne({ userId: "admin@notesshare.com"});
+  console.log(documents.user_notes);
+  await mongoHelper.closeConnection()
+  res.json(documents.user_notes);
+
+
+  
+
+
 })
 
 // Start the server using Express

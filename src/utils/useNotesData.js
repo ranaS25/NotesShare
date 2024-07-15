@@ -9,7 +9,7 @@ const useNotesData = (userId, userPassword) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/notes`, {
+        const response = await fetch(`http://localhost:3000/getAllNotes`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -23,7 +23,7 @@ const useNotesData = (userId, userPassword) => {
         const jsonRes = await response.json();
         setUserNotes(jsonRes);
       } catch (err) {
-        setError(err.message);
+        setError("Can't Fetch Right Now. Try again...");
       } finally {
         setLoading(false);
       }

@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Note = (props) =>{
-  const { id, title, description } = props;
+  const {tags, title, description } = props.noteDetails;
   return (
     <div
-      className="flex-col h-fit bg-slate-300 p-4 rounded hover:bg-slate-400 select-none grow dark:bg-slate-600 dark:text-slate-100"
+      className="flex-col h-fit w-fit bg-slate-300 p-4 rounded hover:bg-slate-400 select-none flex-grow-[0.3] basis-[fit-content] dark:bg-slate-600 dark:text-slate-100"
     >
       <h2 className="font-semibold text-lg my-1">{title}</h2>
       <p>{description}</p>
@@ -16,10 +16,10 @@ const Note = (props) =>{
 export const withTags = (Note) => {
   // console.log("check here : ", Note)
   return (props) => {
-    // const {id, title, description, tags} = props;
+    const {tags} = props.noteDetails;
     return (
-      <div className='relative'>
-        <label className="absolute right-1 top-1 py-1 px-1 rounded bg-slate-700 text-slate-400">{props.tags[0].name}</label>
+      <div className='relative '>
+        <label className="absolute right-1 top-1 py-1 px-1 rounded bg-slate-700 text-slate-400">{tags[0].name}</label>
         <Note {...props} />
       </div>
     );

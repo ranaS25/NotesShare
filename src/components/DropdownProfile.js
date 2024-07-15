@@ -1,11 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { userProfileLogo } from '../utils/constants';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 
 function DropdownProfile(props) {
 
-    const [profile, setProfile] = useState({name: 'name'});
+  const [profile, setProfile] = useState({ name: '-' });
+  const myref = useRef(null);
 
-    useEffect(() => {
+  const handleClickOutside = (event) => { 
+    if (myref.current && !myref.current.contains(event.target)) {
+      props.setDropdownOpen(false);
+    }
+  }
+
+  useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside)
         const fetchProfileData = async () => {
 
             try {
@@ -22,16 +33,28 @@ function DropdownProfile(props) {
     }, []);
 
     return (
-        <div className='flex-col items-center fixed top-20 right-10 bg-pink-300' style={{display: props.displayValue}}>
-            <img className='w-16 rounded-full pt-2' src= {userProfileLogo}/>
-            <p>{profile.name}</p>
-            <hr/>
-            <ul className='flex-col p-3'>
-            <li>Edit Profile</li>
-            <li className='border-t-2 border-stone-800'>Logout</li>
-            </ul>
-        </div>
-    )
+      <div
+        ref={myref}
+        className="flex-col rounded items-center fixed top-16 right-10 bg-slate-200 dark:bg-slate-800 outline outline-2 outline-slate-500 select-none"
+        style={{ display: props.displayValue }}
+      >
+        
+        <FontAwesomeIcon
+          icon={faUser}
+          className="mt-2 w-10 h-10 cursor-pointer rounded-full "
+        />
+        <p className="py-2">{profile.name}</p>
+        <hr />
+        <ul className="flex-col text-lg">
+          <li className="px-9 py-2 hover: hover:bg-slate-300 dark:hover:bg-slate-900 ">
+            Edit Profile
+          </li>
+          <li className="px-9 py-2 border-t-2 border-slate-400 hover:bg-slate-300 dark:hover:bg-slate-900">
+            Logout
+          </li>
+        </ul>
+      </div>
+    );
 }
 
 export default DropdownProfile;

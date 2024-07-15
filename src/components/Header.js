@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <div
-      className={`flex justify-between bg-orange-300 dark:bg-slate-600 p-2 dark:text-slate-100`}
+      className={`flex sticky top-0 z-50  h-fit justify-between bg-orange-300 dark:bg-slate-600 p-2 dark:text-slate-100`}
     >
       <div className="grid place-content-center font-sans text-2xl">
         Notes Share
@@ -82,11 +82,11 @@ const Header = () => {
           alt="user icon"
           className="w-10"
           onClick={() => {
-            setIsDropdownOpen(!isDropdownOpen);
+            if(!isDropdownOpen) {setIsDropdownOpen(!isDropdownOpen);}
           }}
         />
       </div>
-      <DropdownProfile displayValue={isDropdownOpen ? "flex" : "none"} />
+      <DropdownProfile displayValue={isDropdownOpen ? "flex" : "none"} setDropdownOpen={setIsDropdownOpen}/>
     </div>
   );
 };
