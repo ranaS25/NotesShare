@@ -22,11 +22,6 @@ const USERS_PATH = path.join(__dirname, "users.json");
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
-/*  FIXME uncomment when you are done 
-
-
-  END
- */
 
 
 // Utility function example
@@ -71,7 +66,7 @@ const slowDownMiddleware = slowDown({
 
   
   // Apply the slowDown middleware to all requests
-  app.use(slowDownMiddleware);
+  // app.use(slowDownMiddleware);
 
   // Use the CORS middleware with appropriate settings
 app.use(cors({
@@ -171,11 +166,11 @@ app.post('/registerUser', (req, res)=>{
 app.post('/sendanote', async (req, res) => {
     
     const newObj= {
-        id: req.body.id,
+        type: req.body.type,
         title: req.body.title,
         description: req.body.description
     }
-    console.log(newObj);
+    // console.log(newObj);
 
     let database_object;
 
@@ -201,7 +196,7 @@ app.post('/sendanote', async (req, res) => {
     }
 
 
-    console.log(database_object);
+    // console.log(database_object);
     // console.log(Array.isArray(database_object));
 
 
@@ -217,6 +212,42 @@ app.post('/sendanote', async (req, res) => {
 
 
 });
+app.post('/newnote', async (req, res) => {
+
+  //check if user is authorized user
+
+  const userId = req.body;
+  console.log(req.body);
+
+
+
+
+  const mongoHelper = new MongoHelper();
+  const db = await mongoHelper.connectToDatabase();
+  const coll = db.collection("user_notes");
+
+  const pipeline = [
+    {
+      $match: { userId: userId },
+    },
+    {
+      $project: {
+        _id: 0, // Exclude the _id field
+        lastNoteId: { $arrayElemAt: ["$user_notes.id", -1] }, // Get the id of the last element in the array
+      },
+    },
+  ];
+  const documents = await coll
+    .aggregate(pipeline)
+    .toArray();
+  // console.log(documents.);
+  await mongoHelper.closeConnection();
+  res.json(documents[0]);
+
+
+
+
+})
 
 app.get('/', (req, res) => {
     
@@ -280,7 +311,7 @@ app.delete('/notes/:id', async (req, res)=>{
 
 
 app.get('/notes/:noteid', async(req, res)=>{
-    console.log("messgae: ", req.params.noteid)
+    // console.log("messgae: ", req.params.noteid)
     
     let database_path = path.join(__dirname,'database', 'notes.json');
     let database_obj =  await readJsonFile(database_path);
@@ -289,7 +320,7 @@ app.get('/notes/:noteid', async(req, res)=>{
 
     
 
-    console.log(result);
+    // console.log(result);
     res.json(result);
 
 
@@ -312,7 +343,7 @@ app.get('/getAllnotes', async (req, res) => {
   const db = await mongoHelper.connectToDatabase();
   const coll = db.collection('user_notes');
   const documents = await coll.findOne({ userId: "admin@notesshare.com"});
-  console.log(documents.user_notes);
+  // console.log(documents.user_notes);
   await mongoHelper.closeConnection()
   res.json(documents.user_notes);
 

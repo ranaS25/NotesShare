@@ -10,8 +10,8 @@ class MongoHelper {
 
   connectToDatabase = async() => {
     await mongoose.connect(process.env.LOCAL_MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+     
+      
     });
     this.db = mongoose.connection;
     return this.db;

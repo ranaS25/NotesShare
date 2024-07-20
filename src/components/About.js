@@ -5,11 +5,10 @@ const About = (props) => {
     console.log("count: " + count);
     return (
       <div
-        className="card-cont"
-        style={{ padding: "24px", border: "1px solid black" }}
+        className="bg-slate-400 p-3"
       >
-        <h2>Card</h2>
-        <p>description</p>
+        <h2>About Section</h2>
+        <p>Count { count}</p>
         <button
           type="button"
           onClick={() => {

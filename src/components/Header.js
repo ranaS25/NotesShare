@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <div
-      className={`flex sticky top-0 z-50  h-fit justify-between bg-orange-300 dark:bg-slate-600 p-2 dark:text-slate-100`}
+      className={`flex sticky z-50 top-0  h-fit justify-between bg-orange-300 dark:bg-slate-600 p-2 dark:text-slate-100`}
     >
       <div className="grid place-content-center font-sans text-2xl">
         Notes Share

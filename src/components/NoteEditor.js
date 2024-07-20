@@ -14,8 +14,14 @@ const NoteEditor = ({ noteEditorRef, setNoteEditor }) => {
       
     }
 
-    // fetch(``, {}).then()
-    location.reload();
+    fetch(`http://localhost:3000/newnote`, {
+      method: 'POST',
+      contentType: "application/json",
+      // FIXME LASTEDIT
+      body: { userId: JSON.parse(localStorage.getItem('user')).userId }
+      // END of fixme
+    }).then(res=>res.json()).then(data=>console.log(data));
+    // location.reload();
     setNoteEditor(false);
 
   }
