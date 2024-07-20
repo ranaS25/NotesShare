@@ -1,2 +1,4 @@
-- project is for taking notes Quickly
+# Notes Share
+ - create yuor notes Quickly and share it with others.
+ 
 
