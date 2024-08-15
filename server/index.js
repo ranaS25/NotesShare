@@ -1,17 +1,14 @@
 const express = require('express');
+const app = express();
+const PORT = 3000;
 
 const slowDown = require('express-slow-down');
 
-
-
-const fs = require('fs');
 const path = require('path'); // Core module for handling file paths
-const app = express();
-const PORT = 3000;
-const cors = require("cors");
-const mongoose = require("mongoose");
-const  MongoHelper  =  require ("./Mongodb.js")
 
+const cors = require("cors");
+
+const  MongoHelper  =  require ("./Mongodb.js")
 
 require('dotenv').config();
 
@@ -24,37 +21,6 @@ const USERS_PATH = path.join(__dirname, "users.json");
 
 
 
-// Utility function example
-// read any file and returns it in js object
-const readJsonFile = async (filePath) => {
-    try {
-        const data = await fs.promises.readFile(filePath, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error reading or parsing file:', error);
-        throw error;
-    }
-};
-
-async function writeStringToFile(filePath, content) {
-    console.log(filePath);
-    try {
-        // Write the string content to the specified file
-        await fs.promises.writeFile(filePath, content, 'utf8');
-        console.log(`Content successfully written to ${filePath}`);
-    } catch (error) {
-        // Handle errors (e.g., file not found, permission issues)
-        console.error(`Error writing to file: ${error.message}`);
-        
-    }
-}   
-
-
-function getNextid(database_obj){
-
-    let last_note_id = database_obj[database_obj.length-1].id;
-    return Number(last_note_id.substring(8)) + 1;
-}
 
 // Create a slowDown middleware instance
 const slowDownMiddleware = slowDown({
@@ -84,41 +50,41 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //checking if user is not authenticated
- const authorizeUser = async (req, res, next)=>{
+//  const authorizeUser = async (req, res, next)=>{
 
-    console.log(req.headers.userid);
+//     console.log(req.headers.userid);
 
     
-    let users_path = path.join(__dirname,'database', 'users.json');
-    let usersArray;
+//     let users_path = path.join(__dirname,'database', 'users.json');
+//     let usersArray;
 
-    try {
-        usersArray = await readJsonFile(users_path);
+//     try {
+//         usersArray = await readJsonFile(users_path);
         
 
-    } catch (error) {
-        res.status(500).send('unexpected error');
-    }
-    console.log('users array: ', usersArray);
-    console.log('user id: '+ usersArray[0].userId)
-    console.log("user id: " + usersArray[0].userPassword);
-    let userObj = usersArray.find(user=>user.userId === req.headers.userid && user.userPassword === req.headers.userpassword)
+//     } catch (error) {
+//         res.status(500).send('unexpected error');
+//     }
+//     console.log('users array: ', usersArray);
+//     console.log('user id: '+ usersArray[0].userId)
+//     console.log("user id: " + usersArray[0].userPassword);
+//     let userObj = usersArray.find(user=>user.userId === req.headers.userid && user.userPassword === req.headers.userpassword)
             
-    // console.log('user Obj: ', userObj);
-    if(userObj === undefined) {
-        res.send("user is invalid");
+//     // console.log('user Obj: ', userObj);
+//     if(userObj === undefined) {
+//         res.send("user is invalid");
         
-    }
-    else{
-        next();
-    }
+//     }
+//     else{
+//         next();
+//     }
 
 
 
 
 
     
-};
+// };
 
 
 // Serve static files from the 'public' directory
@@ -330,7 +296,8 @@ app.get('/notes/:noteid', async(req, res)=>{
 //user profile
 
 app.get('/user/:email', async (req, res) => {
-    const email = req.params.email;
+  const email = req.params.email;
+  console.log("email is "+email)
     const usersArray = await readJsonFile(USERS_PATH);
     const user = usersArray.find((user) => user.userId === email);
     res.json(user);
