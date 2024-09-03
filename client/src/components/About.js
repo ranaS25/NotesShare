@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const About = (props) => {
     const [count, setCount] = useState(1);
-    console.log("count: " + count);
+    //console.log("count: " + count);
     return (
       <div
         className="bg-slate-400 p-3"

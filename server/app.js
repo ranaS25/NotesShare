@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from "cookie-parser";
+
 import userRouter from './routes/users.route.js';
 const app = express();
 
@@ -14,9 +16,8 @@ app.use(cors())
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
-
-// Middleware to parse URL-encoded request bodies (for form submissions)
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 app.use("/users", userRouter)
