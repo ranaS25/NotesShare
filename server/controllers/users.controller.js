@@ -98,7 +98,7 @@ const loginUser = async (req, res) => {
 
     res
       .status(200)
-      .cookie("acessToken", accessToken, options)
+      .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
       .json(
         new ApiResponse(
@@ -113,8 +113,29 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  const user = req.user;
+
+  user.refreshToken = null;
+  await user.save({ validateBeforeSave: false });
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "user logged out successfully."));
+};
+
 const listUsers = async (req, res) => {
   res.send("ok");
 };
 
-export { registerUser, listUsers, loginUser };
+export { registerUser, listUsers, loginUser, logoutUser };
+
+
+
