@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import bcrypt from "bcrypt";
+import { validateEmailsformat } from "../utils/functions.js";
 
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -30,10 +31,12 @@ const registerUser = async (req, res) => {
     if (!email || email.toLowerCase().trim() === "") {
       throw new ApiError(400, "Email is required.");
     }
-
-    if (!password || password.length < 8) {
-      throw new ApiError(400, "Password is required.");
+    if ( email.length<5 ||  !validateEmailsformat([email])) {
+      throw new ApiError(400, "Invalid Email address");
     }
+      if (!password || password.length < 8) {
+        throw new ApiError(400, "Password is required.");
+      }
 
     const existingUser = await User.findOne({ email: email });
 

@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 
 import userRouter from './routes/users.route.js';
+import notesRouter from './routes/notes.route.js';
 const app = express();
 
 app.use(cors())
@@ -21,6 +22,6 @@ app.use(cookieParser());
 
 
 app.use("/users", userRouter)
-
+app.use("/notes", notesRouter);
 
 export default app;
