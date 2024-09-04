@@ -131,4 +131,24 @@ const shareNote = async (req, res) => {
 
 
 }
-export { addNote, shareNote };
+
+const listNotes = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const notes = await User.findById(user._id)
+      .select("-_id ownedNotes sharedNotes")
+      .populate("ownedNotes")
+      .populate("sharedNotes");
+    if (!notes) {
+      throw new ApiError(500, "Cannot Fetch Notes. Right now");
+    }
+    res.status(200).json(new ApiResponse(200, notes));
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .json(new ApiError(500, error?.message || "Unexpected error"));
+  }
+};
+
+export { addNote, shareNote, listNotes };
