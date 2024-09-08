@@ -8,7 +8,7 @@ const useOnlineStatus = () => {
   const [isUserOnline, setIsUserOnline] = useState(true);
 
   useEffect(() => {
-    console.log("use effect called...")
+    // console.log("use effect called...")
     window.addEventListener("offline", () => {
       setIsUserOnline(false);
     });

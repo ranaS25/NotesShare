@@ -7,18 +7,20 @@ import Search from "./Search";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import Sidebar from "./Sidebar.js";
 import { useRef } from "react";
+import NotesContainer from "./NotesContainer.js";
 
 
 
 
 const Main = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+
   const [noteEditor, setNoteEditor] = useState(false);
   const noteEditorRef = useRef(null);
-  const { userNotes, loading, error } = useNotesData(
-    user.userId,
-    user.password
-  );
+  const { userNotes, sharedNotes, loading, error } = useNotesData();
+
+  const [selectedSidebarItem, setSelectedSidebarItem] = useState("ownedNotes");
+  
+
 
   const [notesArray, setNotesArray] = useState([]);
   const [filteredNotesArray, setFilteredNotesArray] = useState([]);
@@ -56,7 +58,7 @@ const Main = () => {
 
   if (!loading && userNotes.length < 1) {
     return (
-       <>
+      <>
         
         <Button
           onCLick={() => handleNewNote(e)}
@@ -74,7 +76,6 @@ const Main = () => {
     );
   }
 
-  console.log("note Editor: "+noteEditor)
 
   return (
     <>
@@ -84,31 +85,32 @@ const Main = () => {
           setNoteEditor={setNoteEditor}
         />
       )}
-      { !noteEditor && <button
-        onClick={(e) => handleNewNote(e)}
-        className="fixed bottom-10 right-10 bg-green-300 p-4 rounded-md font-bold hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-800 dark:text-slate-100 "
-      >
-        Add a note
-      </button>}
-      
+      {!noteEditor && (
+        <button
+          onClick={(e) => handleNewNote(e)}
+          className="fixed bottom-10 right-10 bg-green-300 p-4 rounded-md font-bold hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-800 dark:text-slate-100 "
+        >
+          Add a note
+        </button>
+      )}
+
       <div className="flex flex-grow">
-        <Sidebar />
+        {selectedSidebarItem && (
+          <Sidebar setSelectedItem={(value)=>setSelectedSidebarItem(value)} />
+        )}
         <div className="flex flex-grow flex-col">
           <Search
             notesArray={notesArray}
             setFilteredNotesArray={setFilteredNotesArray}
           />
 
-          <div className="flex flex-grow bg-slate-500">
-            <div className="flex  flex-grow flex-row flex-wrap gap-1 items-start bg-slate-100 dark:bg-slate-900 p-4">
-              {filteredNotesArray.map((note) => {
-                return note.tags.length < 1 ? (
-                  <Note key={note.id} noteDetails={note} />
-                ) : (
-                  <NoteWithTags key={note.id} noteDetails={note} />
-                );
-              })}
-            </div>
+          <div className="flex flex-grow bg-slate-100 dark:bg-slate-900">
+            {selectedSidebarItem === "ownedNotes" && userNotes && (
+              <NotesContainer notes={filteredNotesArray} />
+            )}
+            {selectedSidebarItem === "sharedNotes" && sharedNotes && (
+              <NotesContainer notes={sharedNotes} />
+            )}
           </div>
         </div>
       </div>

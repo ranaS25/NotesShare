@@ -1,11 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SERVER_HOST } from "../utils/constants";
 
 const Login = () => {
   const navigate = useNavigate(); // Initialize navigate hook
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
+  const handleLoginClick = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`${SERVER_HOST}/users/login`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+
+    const responseJSON = await response.json();
+    if (responseJSON.success == true) {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="mx-auto bg-white/20  h-fit flex flex-col w-full p-10 grow">
@@ -48,28 +70,7 @@ const Login = () => {
           <button
             type="submit"
             className="text-lg font-bold bg-blue-600 text-white p-2 mt-4 rounded"
-            onClick={async (e) => {
-              e.preventDefault();
-              const response = await fetch(
-                "http://localhost:3000/users/login",
-                {
-                  method: "POST",
-                  credentials: 'include',
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    email: email,
-                    password: password,
-                  }),
-                }
-              );
-
-              const responseJSON = await response.json();
-              console.log(responseJSON);
-
-              return;
-            }}
+            onClick={handleLoginClick}
           >
             Login
           </button>

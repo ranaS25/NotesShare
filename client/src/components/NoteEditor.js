@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { SERVER_HOST } from '../utils/constants';
 
 
 const NoteEditor = ({ noteEditorRef, setNoteEditor }) => {
@@ -10,32 +11,40 @@ const NoteEditor = ({ noteEditorRef, setNoteEditor }) => {
     e.preventDefault();
 
     if (title == "" && description == "") { 
-      return
+      return;
       
     }
 
-    fetch(`http://localhost:3000/newnote`, {
-      method: 'POST',
-      contentType: "application/json",
-      // FIXME LASTEDIT
-      body: { userId: JSON.parse(localStorage.getItem('user')).userId }
-      // END of fixme
-    }).then(res=>res.json()).then(data=>console.log(data));
-    // location.reload();
-    setNoteEditor(false);
+    fetch(`${SERVER_HOST}/notes/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        title: title,
+        body: description,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setNoteEditor(false);
+        }
+      });
+      
 
   }
 
 
   useEffect(() => {
-    console.log("Note editor ref: " + noteEditorRef.current)  
     document.addEventListener("mousedown", (event) => {
-      console.log("deteted click");
+      // console.log("deteted click");
       if (
         noteEditorRef.current &&
         !noteEditorRef.current.contains(event.target)
       ) {
-        console.log("executing");
+        // console.log("executing");
         // noteEditorRef(false);
         setNoteEditor(false)
       }

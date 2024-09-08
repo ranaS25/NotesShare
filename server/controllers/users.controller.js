@@ -95,9 +95,8 @@ const loginUser = async (req, res) => {
     );
 
     const options = {
-      httpOnly: false,
+      httpOnly: true,
       secure: false,
-      sameSite: "None",
       maxAge: 3600000, // 1 hour in milliseconds
     };
 

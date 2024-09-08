@@ -9,7 +9,7 @@ const Header = () => {
   const [darkMode, setDarkMode] = useDarkMode();
   const [activeTab, setActiveTab] = useState(0);
 
-  console.log("Dark Mode: " + (darkMode ? "On" : "Off"));
+  // console.log("Dark Mode: " + (darkMode ? "On" : "Off"));
 
 
  
