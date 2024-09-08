@@ -6,7 +6,12 @@ import userRouter from './routes/users.route.js';
 import notesRouter from './routes/notes.route.js';
 const app = express();
 
-app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:1234",
+    credentials: true,
+  })
+);
 // app.use(
 //   cors({
 //     origin: "http://localhost:1234", // Allow requests from this origin

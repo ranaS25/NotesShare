@@ -8,25 +8,25 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="login-container">
-      <div className="login-features">
-        <p className="feature">Create Notes in one click</p>
+    <div className="mx-auto bg-white/20  h-fit flex flex-col w-full p-10 grow">
+      <div className="login-features w-full max-w-[600px] mx-auto">
+        <p className="text-4xl font-semibold">Create Notes in one click</p>
       </div>
-      <div className="login">
+      <div className="grow min-w-96 w-full max-w-[600px] mx-auto pt-10">
         <form
-          className="login-form"
+          className="flex flex-col"
           action="/"
           method="get"
           onSubmit={() => {
             fetch(``, {
-              method: "get",
+              method: "post",
             });
           }}
         >
-          <label>Email</label>
+          <label className="text-lg font-semibold">Email</label>
           <input
             type="email"
-            className="email"
+            className="my-2 p-2 rounded border"
             name="email"
             placeholder="Email"
             value={email}
@@ -34,10 +34,10 @@ const Login = () => {
               setEmail(e.target.value);
             }}
           />
-          <label>Password</label>
+          <label className="text-lg font-semibold">Password</label>
           <input
             type="password"
-            className="password"
+            className="my-2 p-2 rounded border"
             name="password"
             placeholder="Password"
             value={password}
@@ -47,46 +47,37 @@ const Login = () => {
           />
           <button
             type="submit"
+            className="text-lg font-bold bg-blue-600 text-white p-2 mt-4 rounded"
             onClick={async (e) => {
               e.preventDefault();
               const response = await fetch(
-                "http://localhost:3000/AuthenticateUser",
+                "http://localhost:3000/users/login",
                 {
                   method: "POST",
+                  credentials: 'include',
                   headers: {
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
-                    userId: email,
-                    userPassword: password,
+                    email: email,
+                    password: password,
                   }),
                 }
               );
 
               const responseJSON = await response.json();
-              console.log("User authenticated:", responseJSON);
+              console.log(responseJSON);
 
-              if (responseJSON.isAuthorizedUser == true) {
-                localStorage.setItem(
-                  "user",
-                  JSON.stringify({
-                    userId: responseJSON.userId,
-                    password: responseJSON.passwordToken,
-                  })
-                );
-                navigate("/");
-                return;
-              }
-              alert("Error");
+              return;
             }}
           >
             Login
           </button>
           <button
             type="button"
-            className=" bg-blue-500 p-2 px-4 rounded mx-2 text-slate-50 focus:bg-blue-600 active:text-slate-900"
+            className=" bg-black/20 font-semibold    mt-2 rounded p-2"
           >
-            Button text
+            New User
           </button>
         </form>
       </div>

@@ -95,8 +95,10 @@ const loginUser = async (req, res) => {
     );
 
     const options = {
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
+      sameSite: "None",
+      maxAge: 3600000, // 1 hour in milliseconds
     };
 
     res
@@ -116,6 +118,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+
 const logoutUser = async (req, res) => {
   const user = req.user;
 
@@ -124,7 +127,7 @@ const logoutUser = async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
+    secure: false,
   };
 
   res
