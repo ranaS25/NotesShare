@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:1234",
+    origin: "https://notes-share-mu.vercel.app",
     credentials: true,
   })
 );
