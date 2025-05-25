@@ -11,6 +11,8 @@ const verifyUser = async(req, res, next) => {
 
   try {
 
+    console.log(req.cookies)
+
 
     const accessToken = req.cookies?.accessToken || req.headers.authorization?.replace("Bearer ", "");
     

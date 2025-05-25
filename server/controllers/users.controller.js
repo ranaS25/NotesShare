@@ -68,6 +68,7 @@ const registerUser = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: 'None',
       maxAge: 3600000, // 1 hour in milliseconds
     };
 
@@ -112,6 +113,7 @@ const loginUser = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: 'None',
       maxAge: 3600000, // 1 hour in milliseconds
     };
 
@@ -142,6 +144,7 @@ const logoutUser = async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: 'None',
   };
 
   res
