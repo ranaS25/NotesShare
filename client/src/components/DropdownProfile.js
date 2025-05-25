@@ -4,6 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`; // Prepend "; " to handle first cookie edge case
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null; // Cookie not found
+};
+
 function DropdownProfile(props) {
   const navigate = useNavigate();
 
@@ -26,7 +33,7 @@ function DropdownProfile(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         if (data.success) {
           navigate("/login");
         }
@@ -38,6 +45,10 @@ function DropdownProfile(props) {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    if (!getCookie("accessToken") || getCookie("refreshToken")) {
+      return;
+    }
+
     const fetchProfileData = async () => {
       try {
         const response = await fetch(

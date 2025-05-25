@@ -12,7 +12,7 @@ connectDB().then(() => {
       console.log("ERROR : ", error)
     })
     
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at  port: ${PORT}`);
   });
 
 })

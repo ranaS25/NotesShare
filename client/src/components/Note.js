@@ -3,7 +3,7 @@ import {faEllipsisVertical}  from "@fortawesome/free-solid-svg-icons";
 import NoteMenu from "./NoteMenu";
 import React from "react";
 
-const Note = ({ noteDetails, isMenuSelected,  setNoteMenu}) => {
+const Note = ({ noteDetails, isMenuSelected,  setNoteMenu, setNoteToEdit}) => {
 
   const { tags, title, body } = noteDetails;
 
@@ -18,7 +18,7 @@ const Note = ({ noteDetails, isMenuSelected,  setNoteMenu}) => {
         className="w-fit h-fit px-2 rounded-sm hover:text-white ">
           <FontAwesomeIcon icon={faEllipsisVertical}  />
         </button>
-        {isMenuSelected && <NoteMenu noteId={noteDetails._id} setNoteMenu={(noteId)=>{setNoteMenu(noteId)}} />}  
+        {isMenuSelected && <NoteMenu noteId={noteDetails._id} setNoteMenu={(noteId)=>{setNoteMenu(noteId); setNoteToEdit({_id: noteId, title: noteDetails.title, body: noteDetails.body})} }  />}  
       </div>
       <h2 className="font-semibold text-lg my-1">{title}</h2>
       <p>{body}</p>

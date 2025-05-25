@@ -28,7 +28,10 @@ const Login = () => {
       navigate("/");
     }
   };
-
+  const  handleNewUserClick = async (e) => {
+    e.preventDefault();
+    navigate("/register");
+  };
   return (
     <div className="mx-auto bg-white/20  h-fit flex flex-col w-full p-10 grow">
       <div className="login-features w-full max-w-[600px] mx-auto">
@@ -76,6 +79,7 @@ const Login = () => {
           </button>
           <button
             type="button"
+            onClick={handleNewUserClick}
             className=" bg-black/20 font-semibold    mt-2 rounded p-2"
           >
             New User

@@ -25,18 +25,19 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 const registerUser = async (req, res) => {
   // res.send("not ok")
+  console.log(req.body);
   try {
-    const { email, password } = req.body;
+    const { fullName, email, password } = req.body;
 
     if (!email || email.toLowerCase().trim() === "") {
       throw new ApiError(400, "Email is required.");
     }
-    if ( email.length<5 ||  !validateEmailsformat([email])) {
+    if (email.length < 5 || !validateEmailsformat([email])) {
       throw new ApiError(400, "Invalid Email address");
     }
-      if (!password || password.length < 8) {
-        throw new ApiError(400, "Password is required.");
-      }
+    if (!password || password.length < 8) {
+      throw new ApiError(400, "Password is required.");
+    }
 
     const existingUser = await User.findOne({ email: email });
 
@@ -46,6 +47,7 @@ const registerUser = async (req, res) => {
     }
 
     const user = await User.create({
+      fullName: !fullName ? "" : fullName,
       email: email,
       password: password,
     });
@@ -57,9 +59,22 @@ const registerUser = async (req, res) => {
     if (!createdUser) {
       throw new ApiError(400, "Something went wrong while creating the user");
     }
+    console.log(user._id);
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      user._id
+    );
+    console.log(accessToken, refreshToken);
+
+    const options = {
+      httpOnly: true,
+      secure: false,
+      maxAge: 3600000, // 1 hour in milliseconds
+    };
 
     res
       .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
       .json(new ApiResponse(200, "User registered Succesfully", createdUser));
   } catch (error) {
     res.status(error.statusCode || 401).json(error);

@@ -8,40 +8,56 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import Sidebar from "./Sidebar.js";
 import { useRef } from "react";
 import NotesContainer from "./NotesContainer.js";
+import { useNavigate } from "react-router-dom";
 
-
-
+// Helper function to get a specific cookie by name
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`; // Prepend "; " to handle first cookie edge case
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null; // Cookie not found
+};
 
 const Main = () => {
-
   const [noteEditor, setNoteEditor] = useState(false);
   const noteEditorRef = useRef(null);
-  const { userNotes, sharedNotes, loading, error } = useNotesData();
+  console.log("Inside Main")
+  const { userNotes, sharedNotes, loading, error , fetchData} = useNotesData();
 
   const [selectedSidebarItem, setSelectedSidebarItem] = useState("ownedNotes");
-  
-
+  const navigate = useNavigate();
 
   const [notesArray, setNotesArray] = useState([]);
   const [filteredNotesArray, setFilteredNotesArray] = useState([]);
-  
+  const [noteToEdit, setNoteToEdit] = useState(null);
+
   const NoteWithTags = withTags(Note);
   const handleNewNote = (event) => {
     setNoteEditor(true);
+  };
 
-  }
-
-  
   // Update notesArray and filteredNotesArray when userNotes change
   useEffect(() => {
+    // if (!getCookie("accessToken") || getCookie("refreshToken")) {
+    //   navigate("/login");
+    //   return;
+    // }
     setNotesArray(userNotes);
     setFilteredNotesArray(userNotes);
   }, [userNotes]);
-  
+
+  useEffect(() => {
+    if(noteEditor === false){
+
+      fetchData();
+    }
+  }, [noteEditor ]);
+
   const isUserOnline = useOnlineStatus();
   if (!isUserOnline) {
-    return <h1>Looks like you are not online!! Check Your Internet Settings</h1>
-    
+    return (
+      <h1>Looks like you are not online!! Check Your Internet Settings</h1>
+    );
   }
 
   if (loading) {
@@ -59,13 +75,21 @@ const Main = () => {
   if (!loading && userNotes.length < 1) {
     return (
       <>
-        
-        <Button
-          onCLick={() => handleNewNote(e)}
-          className="fixed bottom-10 right-10 bg-green-300 p-4 rounded-md font-bold hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-800 dark:text-slate-100 "
-        >
-          Add A Note
-        </Button>
+        {noteEditor ? (
+          <NoteEditor
+            noteEditorRef={noteEditorRef}
+            setNoteEditor={setNoteEditor}
+            noteToEdit={noteToEdit}
+          />
+        ) : (
+          <button
+            onClick={(e) => handleNewNote(e)}
+            className="fixed bottom-10 right-10 bg-green-300 p-4 rounded-md font-bold hover:bg-green-400 dark:bg-green-700 dark:hover:bg-green-800 dark:text-slate-100 "
+          >
+            Add A Note
+          </button>
+        )}
+
         <div style={{ justifyContent: "center" }}>
           <h2>
             No Notes available. <br />
@@ -75,7 +99,6 @@ const Main = () => {
       </>
     );
   }
-
 
   return (
     <>
@@ -96,7 +119,7 @@ const Main = () => {
 
       <div className="flex flex-grow">
         {selectedSidebarItem && (
-          <Sidebar setSelectedItem={(value)=>setSelectedSidebarItem(value)} />
+          <Sidebar setSelectedItem={(value) => setSelectedSidebarItem(value)} />
         )}
         <div className="flex flex-grow flex-col">
           <Search
@@ -106,17 +129,16 @@ const Main = () => {
 
           <div className="flex flex-grow bg-slate-100 dark:bg-slate-900">
             {selectedSidebarItem === "ownedNotes" && userNotes && (
-              <NotesContainer notes={filteredNotesArray} />
+              <NotesContainer notes={filteredNotesArray} setNoteToEdit={setNoteToEdit}/>
             )}
             {selectedSidebarItem === "sharedNotes" && sharedNotes && (
-              <NotesContainer notes={sharedNotes} />
+              <NotesContainer notes={sharedNotes}   />
             )}
           </div>
         </div>
       </div>
     </>
   );
-  
 };
 
 export default Main;

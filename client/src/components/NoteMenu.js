@@ -1,8 +1,13 @@
 import React, { useEffect, useRef } from "react";
 
 const NoteMenu = ({ noteId, setNoteMenu }) => {
+  
 
+  const handleShare = (noteId)=>{
 
+    setNoteMenu(noteId);
+
+  }
 
 
   return (
@@ -12,7 +17,9 @@ const NoteMenu = ({ noteId, setNoteMenu }) => {
       className={`absolute top-10 right-8 h-fit w-fit rounded bg-slate-200 dark:bg-slate-700 z-10`}
     >
       <ul>
-        <li className="hover:bg-slate-400 dark:hover:bg-slate-800 cursor-pointer px-8 py-2 rounded text-center">
+        <li 
+        onClick={()=>{handleShare(noteId)}}
+        className="hover:bg-slate-400 dark:hover:bg-slate-800 cursor-pointer px-8 py-2 rounded text-center">
           Edit
         </li>
         <li className="hover:bg-slate-400 dark:hover:bg-slate-800 cursor-pointer px-8 py-2 rounded text-center">
